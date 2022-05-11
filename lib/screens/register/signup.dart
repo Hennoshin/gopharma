@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gopharma/routes_name.dart';
 import 'package:gopharma/viewmodel/register_viewmodel.dart';
 import 'package:provider/provider.dart';
-import '../../main.dart';
-import 'otp.dart';
+import '../login.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key}) : super(key: key);
@@ -34,7 +34,7 @@ class _SignUpState extends State<SignUp> {
       return;
     }
 
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, routeOTP);
   }
 
   @override
