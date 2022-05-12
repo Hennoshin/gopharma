@@ -79,7 +79,7 @@ class _ForgotPassState extends State<ForgotPass> {
                   _resetPassword(context);
                 },
                 child: const Text(
-                  'Reset Passwword',
+                  'Reset Password',
                   style: TextStyle(color: Colors.white, fontSize: 25),
                 ),
               ),
