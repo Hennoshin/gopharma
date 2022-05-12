@@ -231,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(top: 10, left: 10),
                       suffixIcon: Image.asset(
-                        'assets/calender.png',
+                        'asset/images/calender.jpeg',
                         cacheHeight: 20,
                       ),
                       hintText: 'Date Of Birht',
