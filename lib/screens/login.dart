@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gopharma/screens/forgotpass.dart';
 import 'package:gopharma/screens/register/signup.dart';
 import 'package:gopharma/viewmodel/login_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -100,7 +99,7 @@ class _LoginDemoState extends State<LoginDemo> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, routeResetPassword);
+                Navigator.pushNamed(context, routeResetPassword);
               },
               child: const Text(
                 'Forgot Your Password',
@@ -113,8 +112,7 @@ class _LoginDemoState extends State<LoginDemo> {
               margin: const EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                   color: Colors.pink, borderRadius: BorderRadius.circular(20)),
-              child: FlatButton(
-
+              child: TextButton(
                 onPressed: (){
                   _login(context);
                 },
