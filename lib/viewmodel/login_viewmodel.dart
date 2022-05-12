@@ -26,6 +26,8 @@ class LoginViewModel extends ChangeNotifier {
 
   // TODO: Refactor and move to repo/service
   Future<void> login() async {
+    _errorMessage = null;
+
     if ((_email == null) || (_password == null)) {
       _errorMessage = "Email and password cannot be empty";
     }
