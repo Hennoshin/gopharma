@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gopharma/routes_name.dart';
 import '../../viewmodel/otp_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'signup.dart';
@@ -101,7 +102,7 @@ class OTP extends StatelessWidget {
                   return ElevatedButton(
                     style: ElevatedButton.styleFrom(primary: Colors.pink),
                     onPressed: viewModel.isVerificationDone ? () {
-                      print("Verified");
+                      Navigator.pushReplacementNamed(context, routeHome);
                     } : null,
                     child: const Text(
                       'Confirm',
