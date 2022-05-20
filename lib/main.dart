@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gopharma/ProfileScreen.dart';
+import 'package:gopharma/controller/user_controller.dart';
 import 'package:gopharma/firebase_options.dart';
+import 'package:gopharma/screens/admin/add_barang.dart';
 import 'package:gopharma/screens/admin/admin_page.dart';
+import 'package:gopharma/screens/admin/controller/barang_controller.dart';
+import 'package:gopharma/screens/admin/edit_barang.dart';
 import 'package:gopharma/screens/forgotpass.dart';
+import 'package:gopharma/screens/home/controller/hometab_controller.dart';
 import 'package:gopharma/screens/login.dart';
 import 'package:gopharma/screens/register/otp.dart';
 import 'package:gopharma/viewmodel/login_viewmodel.dart';
@@ -29,9 +34,11 @@ Future<void> main() async {
 Route<dynamic>? createRoute(settings) {
   switch (settings.name) {
     case routeHome:
-      return MaterialPageRoute(builder: (context) => HomePage());
+      return MaterialPageRoute(builder: (context) => const HomePage());
     case routeHomeAdmin:
-      return MaterialPageRoute(builder: (context) => AdminPage());
+      return MaterialPageRoute(builder: (context) => const AdminPage());
+    case addBarang:
+      return MaterialPageRoute(builder: (context) => const AddBarang());
     case routeLogin:
       return MaterialPageRoute(builder: (context) => ChangeNotifierProvider(create: (_) => LoginViewModel(), child: const LoginDemo()));
     case routeResetPassword:
@@ -65,6 +72,9 @@ class MyApp extends StatelessWidget {
 class AppDependecies {
   static  Future<void> init() async{
     Get.lazyPut(() => AuthController());
+    Get.lazyPut(() => UserController());
+    Get.lazyPut(() => BarangController());
+    Get.lazyPut(() => HomeTabController());
   }
 }
 

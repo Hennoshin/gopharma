@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gopharma/controller/user_controller.dart';
 import 'package:gopharma/utils/app_color.dart';
 
 // TODO: Reset the _errorMessage when there's no error, consider adding hasError instead
 class LoginViewModel extends ChangeNotifier {
+  UserController userController = Get.find<UserController>();
+
   String? _email;
   String? _password;
   String? _errorMessage;
@@ -29,6 +33,7 @@ class LoginViewModel extends ChangeNotifier {
 
   // TODO: Refactor and move to repo/service
   Future<void> login() async {
+    Get.focusScope!.unfocus();
     _errorMessage = null;
 
     if ((_email == null) || (_password == null)) {
@@ -41,7 +46,16 @@ class LoginViewModel extends ChangeNotifier {
         var data = await user.doc(_email).get();
         if (data.data() != null) {
           Map<String, dynamic> hasil = data.data() as Map<String, dynamic>;
-          if (hasil['role'] == 'user') {
+          if (hasil['role'] == 'admin') {
+            //GO TO ADMIN
+            print("GO TO ADMIN");
+            userController.name.value = hasil['name'] ?? '';
+            userController.email.value = hasil['email'] ?? '';
+            userController.role.value = hasil['role'] ?? '';
+            userController.image.value = hasil['image'] ?? '';
+            _errorMessage = 'isAdmin';
+
+          } else {
             if (!credential.user!.emailVerified) {
               Get.defaultDialog(
                   title: "Error",
@@ -51,25 +65,29 @@ class LoginViewModel extends ChangeNotifier {
                     Get.back();
                   },
                   textConfirm: "Kirim Ulang",
-                  backgroundColor: AppColors.blue);
+                  backgroundColor: Colors.pink);
               Get.snackbar("Info", "Email verifikasi telah dikirim");
             } else {
+              print("GO TO HOME");
+              userController.name.value = hasil['name'] ?? '';
+              userController.email.value = hasil['email'] ?? '';
+              userController.role.value = hasil['role'] ?? '';
+              userController.image.value = hasil['image'] ?? '';
               _errorMessage = 'isUser';
             }
-          } else {
-            //GO TO ADMIN
-            print("GO TO ADMIN");
-            _errorMessage = 'isAdmin';
           }
+        }else{
+          print("blm ada di doc");
         }
-      } on FirebaseAuthException catch (error) {
-        _errorMessage = error.message;
-
-        if (error.message == "invalid-email") {
-          _errorMessage = "Email is not valid";
-        }
-        if ((error.message == "wrong-password") || (error.message == "user-not-found")) {
-          _errorMessage = "Email and password does not match any credential";
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          _errorMessage = 'Email tidak terdaftar';
+        } else if (e.code == 'wrong-password') {
+          _errorMessage = 'Password Salah';
+        } else if (e.code == 'invalid-email') {
+          _errorMessage = 'Format email salah';
+        } else {
+          _errorMessage = e.code;
         }
       }
     }

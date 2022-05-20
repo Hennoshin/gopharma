@@ -18,10 +18,13 @@ class _LoginDemoState extends State<LoginDemo> {
 
     String? error = context.read<LoginViewModel>().errorMessage;
 
+    print("error");
+    print(error.toString());
+
     if(error == 'isAdmin'){
       Navigator.pushReplacementNamed(context, routeHomeAdmin);
     }
-    else     if(error == 'isUser'){
+    else if(error == 'isUser'){
       Navigator.pushReplacementNamed(context, routeHome);
     }
     else{

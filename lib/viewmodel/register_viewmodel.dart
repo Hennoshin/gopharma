@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import '../model/registration_form.dart';
 
 class RegisterViewModel extends ChangeNotifier {
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+
   RegistrationForm form = RegistrationForm();
 
   bool _isEmailValid = false;
@@ -43,11 +45,23 @@ class RegisterViewModel extends ChangeNotifier {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       final credential = await auth.createUserWithEmailAndPassword(email: form.email!, password: form.password!);
+      if(credential.user != null && !credential.user!.emailVerified){
+        await credential.user!.sendEmailVerification();
+        //add users doc by email
+        users.doc(form.email!).set({
+          "name" : form.firstName,
+          "email" : form.email,
+          "lastName" : form.lastName,
+          "role" : "user",
+          "image" : "no_image.jpg"
+        });
+      }
+
     } on FirebaseAuthException catch (error) {
       return Future.value(error.message);
     }
 
-    FirebaseAuth.instance.currentUser!.sendEmailVerification();
+    // FirebaseAuth.instance.currentUser!.sendEmailVerification();
     return Future.value(null);
   }
 }
