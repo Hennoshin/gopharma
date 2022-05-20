@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:gopharma/ProfileScreen.dart';
 import 'package:gopharma/firebase_options.dart';
+import 'package:gopharma/screens/admin/admin_page.dart';
 import 'package:gopharma/screens/forgotpass.dart';
 import 'package:gopharma/screens/login.dart';
 import 'package:gopharma/screens/register/otp.dart';
@@ -29,6 +30,8 @@ Route<dynamic>? createRoute(settings) {
   switch (settings.name) {
     case routeHome:
       return MaterialPageRoute(builder: (context) => HomePage());
+    case routeHomeAdmin:
+      return MaterialPageRoute(builder: (context) => AdminPage());
     case routeLogin:
       return MaterialPageRoute(builder: (context) => ChangeNotifierProvider(create: (_) => LoginViewModel(), child: const LoginDemo()));
     case routeResetPassword:
@@ -51,7 +54,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: true,
       initialRoute: initialRoute,
       onGenerateRoute: createRoute,

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
+import 'package:gopharma/utils/app_color.dart';
 
 // TODO: Reset the _errorMessage when there's no error, consider adding hasError instead
 class LoginViewModel extends ChangeNotifier {
@@ -34,6 +37,31 @@ class LoginViewModel extends ChangeNotifier {
     else {
       try {
         var credential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email!, password: password!);
+        CollectionReference user = FirebaseFirestore.instance.collection('users');
+        var data = await user.doc(_email).get();
+        if (data.data() != null) {
+          Map<String, dynamic> hasil = data.data() as Map<String, dynamic>;
+          if (hasil['role'] == 'user') {
+            if (!credential.user!.emailVerified) {
+              Get.defaultDialog(
+                  title: "Error",
+                  middleText: 'Email blm diverifikasi',
+                  onConfirm: () async {
+                    await credential.user!.sendEmailVerification();
+                    Get.back();
+                  },
+                  textConfirm: "Kirim Ulang",
+                  backgroundColor: AppColors.blue);
+              Get.snackbar("Info", "Email verifikasi telah dikirim");
+            } else {
+              _errorMessage = 'isUser';
+            }
+          } else {
+            //GO TO ADMIN
+            print("GO TO ADMIN");
+            _errorMessage = 'isAdmin';
+          }
+        }
       } on FirebaseAuthException catch (error) {
         _errorMessage = error.message;
 
