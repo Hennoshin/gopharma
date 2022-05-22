@@ -46,15 +46,15 @@ class _AdminPageState extends State<AdminPage> {
         child: Icon(Icons.add),
       ),
       body: RefreshIndicator(
-        onRefresh: ()async{
-          setState(() {
-
-          });
+        onRefresh: () async {
+          setState(() {});
         },
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Obx(()=> ProfileCard(name: userController.name.value,)),
+              Obx(() => ProfileCard(
+                    name: userController.name.value,
+                  )),
               StreamBuilder<QuerySnapshot>(
                   stream: cBarang.streamBarang,
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -84,7 +84,8 @@ class _AdminPageState extends State<AdminPage> {
                       itemBuilder: (ctx, int) {
                         return FutureBuilder<
                                 List<
-                                    QueryDocumentSnapshot<Map<String, dynamic>>>>(
+                                    QueryDocumentSnapshot<
+                                        Map<String, dynamic>>>>(
                             future: cBarang.getBarangs(),
                             builder: (ctx, brg) {
                               if (!brg.hasData) {
@@ -104,7 +105,8 @@ class _AdminPageState extends State<AdminPage> {
                                       ),
                                     ),
                                     ...brg.data!.map((e) {
-                                      Map<String, dynamic> dataBarang = e.data();
+                                      Map<String, dynamic> dataBarang =
+                                          e.data();
                                       dataBarang.addAll({'id': e.id});
                                       ModelBarang data =
                                           ModelBarang.fromJson(dataBarang);
@@ -122,40 +124,64 @@ class _AdminPageState extends State<AdminPage> {
                                                               modelBarang:
                                                                   data)));
                                             },
-                                            leading: FutureBuilder<String?>(
-                                                future:
-                                                    cBarang.getImage(data.image),
-                                                builder: (ctx, snapshot) {
-                                                  if (snapshot.connectionState ==
-                                                      ConnectionState.done) {
-                                                    if(snapshot.hasData){
-                                                      return Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(color: Colors.black)
-                                                        ),
-                                                        child: Image.network(
-                                                          snapshot.data
-                                                              .toString(), fit: BoxFit.cover,),
-                                                      );
-                                                    }else{
-                                                      return Container(
-                                                        width: 100,
-                                                        height: 100,
-                                                        decoration: BoxDecoration(
-                                                            border: Border.all(color: Colors.black)
-                                                        ),
-                                                        child: const Icon(Icons.image),
-                                                      );
-                                                    }
-
-                                                  }
-                                                  return const CircularProgressIndicator();
-                                                }),
+                                            // leading: FutureBuilder<String?>(
+                                            //     future:
+                                            //         cBarang.getImage(data.image),
+                                            //     builder: (ctx, snapshot) {
+                                            //       if (snapshot.connectionState ==
+                                            //           ConnectionState.done) {
+                                            //         if(snapshot.hasData){
+                                            //           return Container(
+                                            //             width: 100,
+                                            //             height: 100,
+                                            //             decoration: BoxDecoration(
+                                            //                 border: Border.all(color: Colors.black)
+                                            //             ),
+                                            //             child: Image.network(
+                                            //               snapshot.data
+                                            //                   .toString(), fit: BoxFit.cover,),
+                                            //           );
+                                            //         }else{
+                                            //           return Container(
+                                            //             width: 100,
+                                            //             height: 100,
+                                            //             decoration: BoxDecoration(
+                                            //                 border: Border.all(color: Colors.black)
+                                            //             ),
+                                            //             child: const Icon(Icons.image),
+                                            //           );
+                                            //         }
+                                            //
+                                            //       }
+                                            //       return const CircularProgressIndicator();
+                                            //     }),
+                                            leading: data.imageUrl.isEmpty
+                                                ? Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.black)),
+                                                    child:
+                                                        const Icon(Icons.image),
+                                                  )
+                                                : Container(
+                                                    width: 100,
+                                                    height: 100,
+                                                    decoration: BoxDecoration(
+                                                        border: Border.all(
+                                                            color:
+                                                                Colors.black)),
+                                                    child: Image.network(
+                                                      data.imageUrl,
+                                                      fit: BoxFit.cover,
+                                                    ),
+                                                  ),
                                             title: Text(data.nama),
                                             subtitle: Text("Rp. ${data.harga}"),
-                                            trailing: const Icon(Icons.arrow_forward_ios),
+                                            trailing: const Icon(
+                                                Icons.arrow_forward_ios),
                                           ),
                                           const Divider()
                                         ],

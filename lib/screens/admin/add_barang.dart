@@ -80,7 +80,7 @@ class _AddBarangState extends State<AddBarang> {
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(9)],
                       decoration: InputDecoration(
-                        prefixIcon: IconButton(onPressed: (){},icon: Text("Rp. "),),
+                        prefixIcon: IconButton(onPressed: null,icon: Text("RM. "),),
                         hintText: 'Masukan Harga Barang',
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(

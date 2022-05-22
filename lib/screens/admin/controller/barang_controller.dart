@@ -64,7 +64,12 @@ class BarangController extends GetxController {
       Reference reference = FirebaseStorage.instance.ref().child(fileName);
       UploadTask task = reference.putFile(File(image.path));
       // await (await task).ref.getDownloadURL();
-      await barangs.doc(barangId).update({'image': fileName});
+
+      await getImage(fileName).then((url) {
+        if (url != null) {
+          barangs.doc(barangId).set({'image': fileName, 'imageUrl': url});
+        }
+      });
       urlDownload.value = await (await task).ref.getDownloadURL();
     }
     loading.value = false;
@@ -84,8 +89,6 @@ class BarangController extends GetxController {
     } else {
       loading.value = true;
 
-      print(loading);
-
       await Get.defaultDialog(
         title: "info",
         middleText: "Sudah yakin dengan barang anda?",
@@ -98,6 +101,9 @@ class BarangController extends GetxController {
         onConfirm: () async {
           Get.back(); //close popup
           await addBarang(img);
+        },
+        onCancel: (){
+          loading.value = false;
         },
         textConfirm: "Yakin",
         textCancel: "Batal",
@@ -113,7 +119,8 @@ class BarangController extends GetxController {
       "harga": int.parse(cHarga.text),
       "deskripsi": cDeskripsi.text,
       "jumlah": int.parse(cJumlah.text),
-      "image": "no_image.jpg",
+      "image": "default.jpg",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/gopharma-347807.appspot.com/o/default.jpg?alt=media&token=8b0c3a8e-ac29-4bb7-9b6a-f491f57f6a0f",
       "create_at": DateTime.now(),
       "update_at": DateTime.now(),
     };
@@ -123,18 +130,22 @@ class BarangController extends GetxController {
         print("nama file : $fileName");
 
         Reference reference = FirebaseStorage.instance.ref().child(fileName);
-        await reference.putFile(File(image.path)).then((p0) {
+        await reference.putFile(File(image.path));
+
+        await getImage(fileName).then((url) {
+          if (url != null) {
+            barangs.doc(value.id).update({'imageUrl': url,'image': fileName});
+          }
           Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
               backgroundColor: Colors.blue);
         });
-        await barangs.doc(value.id).update({'image': fileName});
+
         loading.value = false;
-      }else{
+      } else {
         loading.value = false;
         Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
             backgroundColor: Colors.blue);
       }
-
     }).catchError((error) {
       loading.value = false;
       Get.snackbar("Gagal", 'Barang Gagal diubah', backgroundColor: Colors.red);
@@ -149,6 +160,8 @@ class BarangController extends GetxController {
   Future<void> simpanEditBarang(
       {required ModelBarang modelBarang, XFile? imageFile}) async {
     Get.focusScope!.unfocus();
+    loading.value = true;
+
 
     await Get.defaultDialog(
       title: "info",
@@ -160,12 +173,14 @@ class BarangController extends GetxController {
       middleTextStyle: TextStyle(color: Colors.white),
       buttonColor: Colors.pink,
       onConfirm: () async {
+        Get.back(); //close popup
         Map<String, dynamic> barang = {
           "nama": modelBarang.nama,
           "harga": modelBarang.harga,
           "deskripsi": modelBarang.deskripsi,
           "jumlah": modelBarang.jumlah,
           "image": modelBarang.image,
+          "imageUrl": modelBarang.imageUrl,
           "update_at": DateTime.now(),
         };
         await barangs.doc(modelBarang.id).update(barang).then((value) async {
@@ -175,18 +190,33 @@ class BarangController extends GetxController {
 
             Reference reference =
                 FirebaseStorage.instance.ref().child(fileName);
-            UploadTask task = reference.putFile(File(imageFile.path));
+            await reference.putFile(File(imageFile.path));
             // await (await task).ref.getDownloadURL();
-            await barangs.doc(modelBarang.id).update({'image': fileName});
+            await getImage(fileName).then((url) {
+              if (url != null) {
+                 barangs.doc(modelBarang.id).update({'image': fileName,'imageUrl': url});
+                 final storage = FirebaseStorage.instance.ref();
+                 storage.child(modelBarang.image).delete();
+              }
+              Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
+                  backgroundColor: Colors.blue);
+            });
+            loading.value = false;
+          }else{
+            loading.value = false;
+            Get.snackbar("Berhasil", 'Barang berhasil diubah',
+                backgroundColor: Colors.blue, colorText: Colors.white);
           }
-          Get.back(); //close popup
-          Get.snackbar("Berhasil", 'Barang berhasil diubah',
-              backgroundColor: Colors.blue, colorText: Colors.white);
+
         }).catchError((error) {
+          loading.value = false;
           Get.back(); //close popup
           Get.snackbar("Gagal", 'Barang Gagal diubah',
               backgroundColor: Colors.red);
         });
+      },
+      onCancel: (){
+        loading.value = false;
       },
       textConfirm: "Yakin",
       textCancel: "Batal",
@@ -217,8 +247,7 @@ class BarangController extends GetxController {
               backgroundColor: Colors.blue, colorText: Colors.white);
           final storage = FirebaseStorage.instance.ref();
           storage.child(modelBarang.image).delete();
-
-        }).catchError((error){
+        }).catchError((error) {
           Get.snackbar("Gagal", "Gagal hapus barang",
               backgroundColor: Colors.blue, colorText: Colors.white);
         });

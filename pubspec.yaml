@@ -42,6 +42,7 @@ dependencies:
   get: ^4.6.3
   image_picker: ^0.8.5+2
   firebase_storage: ^10.2.15
+  equatable: ^2.0.3
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +61,7 @@ dev_dependencies:
 # The following section is specific to Flutter.
 flutter:
   assets:
+    - asset/images/
     - asset/images/login.png
     - asset/images/calender.jpeg
     - asset/images/no_image.jpg

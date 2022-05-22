@@ -24,33 +24,23 @@ class _ItemCardState extends State<ItemCard> {
       width: Get.width / 2 - 40,
       child: Column(
         children: [
-          FutureBuilder<String?>(
-              future: cHome.getImage(widget.barang.image),
-              builder: (ctx, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.hasData) {
-                    return Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: Image.network(
-                        snapshot.data.toString(),
-                        fit: BoxFit.fill,
-                      ),
-                    );
-                  } else {
-                    return Container(
-                      width: Get.width / 2 - 40,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black)),
-                      child: const Icon(Icons.image),
-                    );
-                  }
-                }
-                return const CircularProgressIndicator();
-              }),
+          widget.barang.imageUrl.isEmpty
+              ? Container(
+                  width: Get.width / 2 - 40,
+                  height: 100,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: const Icon(Icons.image))
+              : Container(
+                  width: 100,
+                  height: 100,
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  child: Image.network(
+                    widget.barang.imageUrl,
+                    fit: BoxFit.fill,
+                  ),
+                ),
           const SizedBox(
             height: 4,
           ),
@@ -66,17 +56,22 @@ class _ItemCardState extends State<ItemCard> {
             'RM ${widget.barang.harga}',
             overflow: TextOverflow.ellipsis,
           ),
-          Container(
-            width: (Get.width / 2 - 40) / 1.5,
-            margin: const EdgeInsets.only(top: 20),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Colors.pink, borderRadius: BorderRadius.circular(20)),
-            child: Center(
-              child: const Text(
-                'Add',
-                style: TextStyle(
-                  color: Colors.white,
+          InkWell(
+            onTap: (){
+              cHome.addListBarangtoCart(widget.barang);
+            },
+            child: Container(
+              width: (Get.width / 2 - 40) / 1.5,
+              margin: const EdgeInsets.only(top: 20),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.pink, borderRadius: BorderRadius.circular(20)),
+              child: const Center(
+                child: Text(
+                  'Add',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),

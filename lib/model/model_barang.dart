@@ -12,6 +12,7 @@ class ModelBarang {
     required this.jumlah,
     required this.deskripsi,
     required this.image,
+    required this.imageUrl,
   });
 
   String id;
@@ -20,6 +21,7 @@ class ModelBarang {
   int jumlah;
   String deskripsi;
   String image;
+  String imageUrl;
 
   factory ModelBarang.fromJson(Map<String, dynamic> json) => ModelBarang(
     id: json["id"] ?? '',
@@ -28,6 +30,7 @@ class ModelBarang {
     jumlah: json["jumlah"] ?? 0,
     deskripsi: json["deskripsi"] ?? '',
     image: json["image"] ?? '',
+    imageUrl: json["imageUrl"] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class ModelBarang {
     "jumlah": jumlah,
     "deskripsi": deskripsi,
     "image": image,
+    "imageUrl": imageUrl,
   };
 }

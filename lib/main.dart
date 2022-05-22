@@ -10,6 +10,7 @@ import 'package:gopharma/screens/admin/admin_page.dart';
 import 'package:gopharma/screens/admin/controller/barang_controller.dart';
 import 'package:gopharma/screens/admin/edit_barang.dart';
 import 'package:gopharma/screens/forgotpass.dart';
+import 'package:gopharma/screens/home/controller/carttab_controller.dart';
 import 'package:gopharma/screens/home/controller/hometab_controller.dart';
 import 'package:gopharma/screens/login.dart';
 import 'package:gopharma/screens/register/otp.dart';
@@ -65,6 +66,34 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       initialRoute: initialRoute,
       onGenerateRoute: createRoute,
+      builder: (context, child) {
+        return Stack(
+          children: [
+            child ?? Container(),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 30,
+                width: 100,
+                padding: EdgeInsets.all(5),
+                margin: EdgeInsets.only(bottom: 20),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.amberAccent,
+                ),
+                child: Row(
+                  children: [
+                    Image.asset('asset/images/twitter.png'),
+                    Text("  @odank_xf", style: TextStyle(fontSize: 10, color: Colors.blue),),
+                  ],
+                ),
+              ),
+            )
+
+          ],
+        );
+      },
     );
   }
 }
@@ -75,6 +104,7 @@ class AppDependecies {
     Get.lazyPut(() => UserController());
     Get.lazyPut(() => BarangController());
     Get.lazyPut(() => HomeTabController());
+    Get.lazyPut(() => CartController());
   }
 }
 

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gopharma/routes_name.dart';
+import 'package:gopharma/screens/home/cart_tab.dart';
 import 'package:gopharma/screens/home/home_tab.dart';
+import 'package:gopharma/screens/home/profile_tab.dart';
 
 class HomePage extends StatefulWidget {
   final int initPage;
@@ -65,10 +67,10 @@ class _HomePageState extends State<HomePage> {
             _selectedIndex = tab;
           });
         },
-        children: [
+        children: const [
           HomeTab(),
-          Container(height: 500,width: 500,color: Colors.yellow,),
-          Container(height: 500,width: 500,color: Colors.green,),
+          CartTab(),
+          ProfileTab(),
         ],
       ),
       bottomNavigationBar: ClipRRect(
