@@ -66,34 +66,6 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: true,
       initialRoute: initialRoute,
       onGenerateRoute: createRoute,
-      builder: (context, child) {
-        return Stack(
-          children: [
-            child ?? Container(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 30,
-                width: 100,
-                padding: EdgeInsets.all(5),
-                margin: EdgeInsets.only(bottom: 20),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.amberAccent,
-                ),
-                child: Row(
-                  children: [
-                    Image.asset('asset/images/twitter.png'),
-                    Text("  @odank_xf", style: TextStyle(fontSize: 10, color: Colors.blue),),
-                  ],
-                ),
-              ),
-            )
-
-          ],
-        );
-      },
     );
   }
 }

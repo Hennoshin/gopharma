@@ -198,7 +198,7 @@ class BarangController extends GetxController {
                  final storage = FirebaseStorage.instance.ref();
                  storage.child(modelBarang.image).delete();
               }
-              Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
+              Get.snackbar("Berhasil", 'Barang berhasil diubah',
                   backgroundColor: Colors.blue);
             });
             loading.value = false;
