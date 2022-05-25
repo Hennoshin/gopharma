@@ -14,6 +14,22 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   HomeTabController cHomeTab = Get.find<HomeTabController>();
+
+  late String searchQuery;
+
+  void onChangeCallback(String text) {
+    text = text.toLowerCase();
+    setState(() {
+      searchQuery = text;
+    });
+  }
+
+  @override
+  void initState() {
+    searchQuery = "";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(onRefresh: ()async{}, child: SingleChildScrollView(
@@ -37,9 +53,7 @@ class _HomeTabState extends State<HomeTab> {
                   fontSize: 14,
                 ),
               ),
-              onChanged: (text) {
-                text = text.toLowerCase();
-              },
+              onChanged: onChangeCallback,
             ),
           ),
           Padding(
@@ -69,6 +83,28 @@ class _HomeTabState extends State<HomeTab> {
                     }).toList(),
                   );
                 }
+
+                List<ItemCard> list = <ItemCard>[];
+                for (var value in snapshot.data!.docs) {
+                  Map<String, dynamic> data = value.data();
+                  data.addAll({
+                    "id": value.id
+                  });
+                  ModelBarang b = ModelBarang.fromJson(data);
+
+                  final regex = RegExp(searchQuery, caseSensitive: false);
+                  if (regex.hasMatch(b.nama)) {
+                    list.add(ItemCard(barang: b));
+                  }
+
+                }
+
+                return Wrap(
+                  spacing: 10,
+                  runSpacing: 20,
+                  children: list,
+                );
+              }
             ),
           ),
           const SizedBox(
