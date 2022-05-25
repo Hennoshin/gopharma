@@ -50,7 +50,7 @@ class HomeTabController extends GetxController {
       });
     } else {
       var data = cart.listBarangs.firstWhere(
-          (element) => element['id'] == modelBarang.id,
+              (element) => element['id'] == modelBarang.id,
           orElse: () => {});
 
       if (data.isNotEmpty) {

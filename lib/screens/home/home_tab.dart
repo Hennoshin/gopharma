@@ -59,14 +59,29 @@ class _HomeTabState extends State<HomeTab> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: cHomeTab.streamBarang(),
-              builder:(BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
-                if (snapshot.hasError) {
-                  return Text('Something went wrong');
-                }
+                stream: cHomeTab.streamBarang(),
+                builder:(BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
+                  if (snapshot.hasError) {
+                    return Text('Something went wrong');
+                  }
 
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Text("Loading...");
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Text("Loading...");
+                  }
+
+                  return Wrap(
+                    spacing: 10,
+                    runSpacing: 20,
+                    children: snapshot.data!.docs.map((DocumentSnapshot document){
+                      Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+                      data.addAll({
+                        'id' : document.id
+                      });
+                      ModelBarang b = ModelBarang.fromJson(data);
+
+                      return ItemCard(barang: b,);
+                    }).toList(),
+                  );
                 }
 
                 List<ItemCard> list = <ItemCard>[];

@@ -54,12 +54,13 @@ class _EditBarangState extends State<EditBarang> {
       onTap: () {
         FocusScope.of(context).unfocus();
       },
-      child: Obx(()=>LoadingOverlay(
+      child: Obx(
+            () => LoadingOverlay(
           isLoading: cBarang.loading.value,
           child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.pink,
-                title: Text('Edit Barang'),
+                title: Text('Edit Items'),
               ),
               body: SingleChildScrollView(
                 child: Container(
@@ -69,8 +70,7 @@ class _EditBarangState extends State<EditBarang> {
                       InkWell(
                         onTap: () async {
                           _imageUpload = await cBarang.pickImage();
-                          setState(() {
-                           });
+                          setState(() {});
                         },
                         child: Center(
                           child: Container(
@@ -78,16 +78,17 @@ class _EditBarangState extends State<EditBarang> {
                             width: 200,
                             decoration: BoxDecoration(
                                 color: Colors.white,
-                                border: Border.all(width: 2, color: Colors.black)),
+                                border:
+                                Border.all(width: 2, color: Colors.black)),
                             child: _imageUpload == null
                                 ? Image.network(
-                                        widget.modelBarang.imageUrl,
-                                        fit: BoxFit.cover,
-                                      )
+                              widget.modelBarang.imageUrl,
+                              fit: BoxFit.cover,
+                            )
                                 : Image.file(
-                                    File(_imageUpload!.path),
-                                    fit: BoxFit.cover,
-                                  ),
+                              File(_imageUpload!.path),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
@@ -97,7 +98,7 @@ class _EditBarangState extends State<EditBarang> {
                       TextField(
                         controller: cNama,
                         decoration: InputDecoration(
-                          hintText: 'Nama Barang',
+                          hintText: 'Name Item',
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -117,9 +118,9 @@ class _EditBarangState extends State<EditBarang> {
                         decoration: InputDecoration(
                           prefixIcon: IconButton(
                             onPressed: () {},
-                            icon: Text("Rp. "),
+                            icon: Text("Rm. "),
                           ),
-                          hintText: 'Masukan Harga Barang',
+                          hintText: 'Input Price Item',
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -137,7 +138,7 @@ class _EditBarangState extends State<EditBarang> {
                           LengthLimitingTextInputFormatter(3)
                         ],
                         decoration: InputDecoration(
-                          hintText: 'Jumlah Barang',
+                          hintText: 'Amount of Items',
                           contentPadding: EdgeInsets.symmetric(horizontal: 10),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -152,7 +153,7 @@ class _EditBarangState extends State<EditBarang> {
                         minLines: 3,
                         maxLines: 5,
                         decoration: InputDecoration(
-                          hintText: 'Deskripsi Barang',
+                          hintText: 'Item Description',
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -172,13 +173,16 @@ class _EditBarangState extends State<EditBarang> {
                                   cBarang.deleteBarang(widget.modelBarang);
                                 },
                                 child: const Text(
-                                  'Hapus',
-                                  style: TextStyle(color: Colors.white, fontSize: 25),
+                                  'Erase',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 25),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(width: 10,),
+                          const SizedBox(
+                            width: 10,
+                          ),
                           Expanded(
                             child: Container(
                               height: 50,
@@ -201,8 +205,9 @@ class _EditBarangState extends State<EditBarang> {
                                       imageFile: _imageUpload);
                                 },
                                 child: const Text(
-                                  'Simpan',
-                                  style: TextStyle(color: Colors.white, fontSize: 25),
+                                  'Save',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 25),
                                 ),
                               ),
                             ),

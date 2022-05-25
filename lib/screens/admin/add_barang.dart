@@ -30,41 +30,44 @@ class _AddBarangState extends State<AddBarang> {
         FocusScope.of(context).unfocus();
       },
       child: Obx(
-        () => LoadingOverlay(
+            () => LoadingOverlay(
           isLoading: cBarang.loading.value,
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.pink,
-              title: Text('Tambah Barang'),
+              title: Text('Add Items'),
             ),
             body: SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.all(20),
                 child: Column(
                   children: [
-
                     InkWell(
-                      onTap: ()async{
+                      onTap: () async {
                         _imageUpload = await cBarang.pickImage();
-                        setState(() {
-
-                        });
+                        setState(() {});
                       },
                       child: Container(
                         height: 200,
                         width: 200,
                         decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(width: 2, color: Colors.black)
+                            color: Colors.white,
+                            border: Border.all(width: 2, color: Colors.black)),
+                        child: _imageUpload == null
+                            ? const Icon(Icons.add_a_photo)
+                            : Image.file(
+                          File(_imageUpload!.path),
+                          fit: BoxFit.cover,
                         ),
-                        child:  _imageUpload == null?const Icon(Icons.add_a_photo): Image.file(File(_imageUpload!.path), fit: BoxFit.cover,),
                       ),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextField(
                       controller: cBarang.cNama,
                       decoration: InputDecoration(
-                        hintText: 'Nama Barang',
+                        hintText: 'Name',
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -77,11 +80,16 @@ class _AddBarangState extends State<AddBarang> {
                     TextFormField(
                       controller: cBarang.cHarga,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(9)],
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(9)
+                      ],
                       decoration: InputDecoration(
-                        prefixIcon: IconButton(onPressed: null,icon: Text("RM. "),),
-                        hintText: 'Masukan Harga Barang',
+                        prefixIcon: IconButton(
+                          onPressed: null,
+                          icon: Text("RM. "),
+                        ),
+                        hintText: 'Price',
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -94,11 +102,12 @@ class _AddBarangState extends State<AddBarang> {
                     TextField(
                       controller: cBarang.cJumlah,
                       keyboardType: TextInputType.number,
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly,
-                      LengthLimitingTextInputFormatter(3)
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        LengthLimitingTextInputFormatter(3)
                       ],
                       decoration: InputDecoration(
-                        hintText: 'Jumlah Barang',
+                        hintText: 'Amount of Items',
                         contentPadding: EdgeInsets.symmetric(horizontal: 10),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -113,7 +122,7 @@ class _AddBarangState extends State<AddBarang> {
                       minLines: 3,
                       maxLines: 5,
                       decoration: InputDecoration(
-                        hintText: 'Deskripsi Barang',
+                        hintText: 'Description',
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -129,10 +138,9 @@ class _AddBarangState extends State<AddBarang> {
                       child: TextButton(
                         onPressed: () async {
                           await cBarang.validateForm(_imageUpload);
-
                         },
                         child: const Text(
-                          'Tambah',
+                          'Add',
                           style: TextStyle(color: Colors.white, fontSize: 25),
                         ),
                       ),

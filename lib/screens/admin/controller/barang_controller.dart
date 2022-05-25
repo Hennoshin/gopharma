@@ -55,11 +55,11 @@ class BarangController extends GetxController {
     loading.value = true;
     var image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    print("hasil image " + image.toString());
+    print("result image " + image.toString());
 
     if (image != null) {
       String fileName = basename(image.path);
-      print("nama file : $fileName");
+      print("name file : $fileName");
 
       Reference reference = FirebaseStorage.instance.ref().child(fileName);
       UploadTask task = reference.putFile(File(image.path));
@@ -78,20 +78,20 @@ class BarangController extends GetxController {
   Future<void> validateForm(XFile? img) async {
     Get.focusScope!.unfocus();
     if (cNama.text.isEmpty) {
-      Get.snackbar("Kosong", "Nama barang harus diisi",
+      Get.snackbar("Empty", "Name of items must be filled",
           backgroundColor: Colors.blue, colorText: Colors.white);
     } else if (cHarga.text.isEmpty) {
-      Get.snackbar("Kosong", "harga barang harus diisi",
+      Get.snackbar("Empty", "Price of items must be filled",
           backgroundColor: Colors.blue, colorText: Colors.white);
     } else if (cJumlah.text.isEmpty) {
-      Get.snackbar("Kosong", "jumlah barang harus diisi",
+      Get.snackbar("Empty", "Total of items must be filled",
           backgroundColor: Colors.blue, colorText: Colors.white);
     } else {
       loading.value = true;
 
       await Get.defaultDialog(
         title: "info",
-        middleText: "Sudah yakin dengan barang anda?",
+        middleText: "Are you sure about the item?",
         backgroundColor: Colors.blue,
         confirmTextColor: Colors.white,
         cancelTextColor: Colors.white,
@@ -105,8 +105,8 @@ class BarangController extends GetxController {
         onCancel: (){
           loading.value = false;
         },
-        textConfirm: "Yakin",
-        textCancel: "Batal",
+        textConfirm: "Sure",
+        textCancel: "Cancel",
       );
     }
   }
@@ -136,19 +136,19 @@ class BarangController extends GetxController {
           if (url != null) {
             barangs.doc(value.id).update({'imageUrl': url,'image': fileName});
           }
-          Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
+          Get.snackbar("Successfull", 'Success Add Item',
               backgroundColor: Colors.blue);
         });
 
         loading.value = false;
       } else {
         loading.value = false;
-        Get.snackbar("Berhasil", 'Berhasil Menambah Barang',
+        Get.snackbar("Successfull", 'Success Add Item',
             backgroundColor: Colors.blue);
       }
     }).catchError((error) {
       loading.value = false;
-      Get.snackbar("Gagal", 'Barang Gagal diubah', backgroundColor: Colors.red);
+      Get.snackbar("Fail", 'Item fail to edit', backgroundColor: Colors.red);
     });
 
     cNama.clear();
@@ -165,7 +165,7 @@ class BarangController extends GetxController {
 
     await Get.defaultDialog(
       title: "info",
-      middleText: "Sudah yakin dengan barang anda?",
+      middleText: "Are you sure about the item?",
       backgroundColor: Colors.blue,
       confirmTextColor: Colors.white,
       cancelTextColor: Colors.white,
@@ -198,28 +198,28 @@ class BarangController extends GetxController {
                  final storage = FirebaseStorage.instance.ref();
                  storage.child(modelBarang.image).delete();
               }
-              Get.snackbar("Berhasil", 'Barang berhasil diubah',
+              Get.snackbar("Successfull", 'Item success to edit',
                   backgroundColor: Colors.blue);
             });
             loading.value = false;
           }else{
             loading.value = false;
-            Get.snackbar("Berhasil", 'Barang berhasil diubah',
+            Get.snackbar("Successfull", 'Item success to edit',
                 backgroundColor: Colors.blue, colorText: Colors.white);
           }
 
         }).catchError((error) {
           loading.value = false;
           Get.back(); //close popup
-          Get.snackbar("Gagal", 'Barang Gagal diubah',
+          Get.snackbar("Fail", 'Item fail to change',
               backgroundColor: Colors.red);
         });
       },
       onCancel: (){
         loading.value = false;
       },
-      textConfirm: "Yakin",
-      textCancel: "Batal",
+      textConfirm: "Sure",
+      textCancel: "Cancel",
     );
   }
 
@@ -234,7 +234,7 @@ class BarangController extends GetxController {
   Future<void> deleteBarang(ModelBarang modelBarang) async {
     Get.defaultDialog(
       title: "info",
-      middleText: "Sudah yakin dengan barang anda?",
+      middleText: "Are you sure about the items?",
       backgroundColor: Colors.blue,
       confirmTextColor: Colors.white,
       cancelTextColor: Colors.white,
@@ -243,19 +243,19 @@ class BarangController extends GetxController {
       buttonColor: Colors.pink,
       onConfirm: () async {
         barangs.doc(modelBarang.id).delete().then((value) {
-          Get.snackbar("Success", "Berhasil hapus barang",
+          Get.snackbar("Successfull", "Item has been deleted",
               backgroundColor: Colors.blue, colorText: Colors.white);
           final storage = FirebaseStorage.instance.ref();
           storage.child(modelBarang.image).delete();
         }).catchError((error) {
-          Get.snackbar("Gagal", "Gagal hapus barang",
+          Get.snackbar("Fail", "Fail to delete item",
               backgroundColor: Colors.blue, colorText: Colors.white);
         });
         Get.back(); //close popup
         Get.back(); //close page
       },
-      textConfirm: "Yakin",
-      textCancel: "Batal",
+      textConfirm: "Sure",
+      textCancel: "Cancel",
     );
   }
 }

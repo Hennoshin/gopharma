@@ -53,18 +53,18 @@ class _AdminPageState extends State<AdminPage> {
           child: Column(
             children: [
               Obx(() => ProfileCard(
-                    name: userController.name.value,
-                  )),
+                name: userController.name.value,
+              )),
               StreamBuilder<QuerySnapshot>(
                   stream: cBarang.streamBarang,
                   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
                       return const Padding(
                           padding: EdgeInsets.all(20),
-                          child: Center(child: Text("Kosong")));
+                          child: Center(child: Text("Empty")));
                     }
                     if (snapshot.hasError) {
-                      return const Text('Terjadi kesalahan');
+                      return const Text('Something went wrong');
                     }
 
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -75,7 +75,7 @@ class _AdminPageState extends State<AdminPage> {
                     if (snapshot.data!.docs.isEmpty) {
                       return const Padding(
                           padding: EdgeInsets.all(20),
-                          child: Center(child: Text("kosong")));
+                          child: Center(child: Text("Empty")));
                     }
                     return ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
@@ -83,15 +83,15 @@ class _AdminPageState extends State<AdminPage> {
                       shrinkWrap: true,
                       itemBuilder: (ctx, int) {
                         return FutureBuilder<
-                                List<
-                                    QueryDocumentSnapshot<
-                                        Map<String, dynamic>>>>(
+                            List<
+                                QueryDocumentSnapshot<
+                                    Map<String, dynamic>>>>(
                             future: cBarang.getBarangs(),
                             builder: (ctx, brg) {
                               if (!brg.hasData) {
                                 return const Padding(
                                     padding: EdgeInsets.all(20),
-                                    child: Center(child: Text("kosong")));
+                                    child: Center(child: Text("Empty")));
                               }
                               return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,17 +99,17 @@ class _AdminPageState extends State<AdminPage> {
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Jumlah Barang : ${brg.data!.length}',
+                                        'Total Item: ${brg.data!.length}',
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700),
                                       ),
                                     ),
                                     ...brg.data!.map((e) {
                                       Map<String, dynamic> dataBarang =
-                                          e.data();
+                                      e.data();
                                       dataBarang.addAll({'id': e.id});
                                       ModelBarang data =
-                                          ModelBarang.fromJson(dataBarang);
+                                      ModelBarang.fromJson(dataBarang);
                                       return Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -122,7 +122,7 @@ class _AdminPageState extends State<AdminPage> {
                                                       builder: (context) =>
                                                           EditBarang(
                                                               modelBarang:
-                                                                  data)));
+                                                              data)));
                                             },
                                             // leading: FutureBuilder<String?>(
                                             //     future:
@@ -157,29 +157,29 @@ class _AdminPageState extends State<AdminPage> {
                                             //     }),
                                             leading: data.imageUrl.isEmpty
                                                 ? Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color:
-                                                                Colors.black)),
-                                                    child:
-                                                        const Icon(Icons.image),
-                                                  )
+                                              width: 100,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                      Colors.black)),
+                                              child:
+                                              const Icon(Icons.image),
+                                            )
                                                 : Container(
-                                                    width: 100,
-                                                    height: 100,
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(
-                                                            color:
-                                                                Colors.black)),
-                                                    child: Image.network(
-                                                      data.imageUrl,
-                                                      fit: BoxFit.cover,
-                                                    ),
-                                                  ),
+                                              width: 100,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color:
+                                                      Colors.black)),
+                                              child: Image.network(
+                                                data.imageUrl,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                             title: Text(data.nama),
-                                            subtitle: Text("Rp. ${data.harga}"),
+                                            subtitle: Text("Rm. ${data.harga}"),
                                             trailing: const Icon(
                                                 Icons.arrow_forward_ios),
                                           ),
