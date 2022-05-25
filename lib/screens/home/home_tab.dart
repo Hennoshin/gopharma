@@ -14,6 +14,22 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   HomeTabController cHomeTab = Get.find<HomeTabController>();
+
+  late String searchQuery;
+
+  void onChangeCallback(String text) {
+    text = text.toLowerCase();
+    setState(() {
+      searchQuery = text;
+    });
+  }
+
+  @override
+  void initState() {
+    searchQuery = "";
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(onRefresh: ()async{}, child: SingleChildScrollView(
@@ -37,9 +53,7 @@ class _HomeTabState extends State<HomeTab> {
                   fontSize: 14,
                 ),
               ),
-              onChanged: (text) {
-                text = text.toLowerCase();
-              },
+              onChanged: onChangeCallback,
             ),
           ),
           Padding(
@@ -55,18 +69,25 @@ class _HomeTabState extends State<HomeTab> {
                   return Text("Loading...");
                 }
 
+                List<ItemCard> list = <ItemCard>[];
+                for (var value in snapshot.data!.docs) {
+                  Map<String, dynamic> data = value.data();
+                  data.addAll({
+                    "id": value.id
+                  });
+                  ModelBarang b = ModelBarang.fromJson(data);
+
+                  final regex = RegExp(searchQuery, caseSensitive: false);
+                  if (regex.hasMatch(b.nama)) {
+                    list.add(ItemCard(barang: b));
+                  }
+
+                }
+
                 return Wrap(
                   spacing: 10,
                   runSpacing: 20,
-                  children: snapshot.data!.docs.map((DocumentSnapshot document){
-                    Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-                    data.addAll({
-                      'id' : document.id
-                    });
-                    ModelBarang b = ModelBarang.fromJson(data);
-
-                    return ItemCard(barang: b,);
-                  }).toList(),
+                  children: list,
                 );
               }
             ),
