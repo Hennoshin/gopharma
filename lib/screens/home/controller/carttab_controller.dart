@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
@@ -5,6 +7,8 @@ class CartController extends GetxController {
   RxList<Map<String, dynamic>> listBarangs = <Map<String, dynamic>>[].obs;
   RxInt totalBarang = 0.obs;
   RxInt totalHarga = 0.obs;
+
+  CollectionReference transaksi = FirebaseFirestore.instance.collection('transaksi');
 
 
   void totalBarangs(){
@@ -25,5 +29,24 @@ class CartController extends GetxController {
     listBarangs.refresh();
   }
 
+  void addTransaction(Map<String, dynamic> data )async{
+
+    try{
+      await transaksi.add(data).then((value){
+        Get.snackbar("Info", 'Konfirmasi pembelian dikirim silahkan melakukan pembayaran cash',
+            backgroundColor: Colors.white);
+        listBarangs.clear();
+      }).catchError((error){
+        Get.snackbar("Error", 'Konfirmasi pembelian gagal dikirim, error $error"',
+            colorText: Colors.white,
+            backgroundColor: Colors.red);
+      });
+    }catch(e){
+      Get.snackbar("Error", 'Konfirmasi pembelian gagal dikirim, error $e"',
+          colorText: Colors.white,
+          backgroundColor: Colors.red);
+    }
+
+  }
 
 }

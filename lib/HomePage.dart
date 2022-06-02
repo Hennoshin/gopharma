@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gopharma/routes_name.dart';
 import 'package:gopharma/screens/home/cart_tab.dart';
+import 'package:gopharma/screens/home/history_tab.dart';
 import 'package:gopharma/screens/home/home_tab.dart';
 import 'package:gopharma/screens/home/profile_tab.dart';
 
@@ -67,9 +68,10 @@ class _HomePageState extends State<HomePage> {
             _selectedIndex = tab;
           });
         },
-        children: const [
+        children: [
           HomeTab(),
           CartTab(),
+          HistoryTab(),
           ProfileTab(),
         ],
       ),
@@ -81,6 +83,7 @@ class _HomePageState extends State<HomePage> {
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.cyan.shade400,
+          unselectedItemColor: Colors.grey,
           onTap: _onItemTapped,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -89,6 +92,10 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.shopping_cart),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.library_books),
               label: '',
             ),
             BottomNavigationBarItem(

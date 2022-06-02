@@ -6,7 +6,10 @@ const String routeRegister = "/register";
 const String routeOTP = "/otp";
 
 
+///USER
+const String routeDetailHistoryUser = "/detail_history_user";
+
 ///ADMIN
 const String routeHomeAdmin = "/home_admin";
-const String addBarang = "/add_barang";
-const String editBarang = "/edit_barang";
+const String routeAddBarang = "/add_barang";
+const String routeEditBarang = "/edit_barang";
