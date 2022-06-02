@@ -7,6 +7,7 @@ import 'package:gopharma/model/model_barang.dart';
 import 'package:gopharma/routes_name.dart';
 import 'package:gopharma/screens/admin/add_barang.dart';
 import 'package:gopharma/screens/admin/edit_barang.dart';
+import 'package:gopharma/screens/admin/riwayat_transaksi_page.dart';
 import 'package:gopharma/screens/admin/widgets/profile_card.dart';
 import 'package:gopharma/utils/app_color.dart';
 
@@ -111,7 +112,7 @@ class _AdminPageState extends State<AdminPage> {
                                             ),
                                             child: const Center(
                                               child: FittedBox(
-                                                child: Text('Daftar Belanja', style: TextStyle(
+                                                child: Text('Items List', style: TextStyle(
                                                     color: Colors.white,
                                                 ),),
                                               ),
@@ -125,7 +126,7 @@ class _AdminPageState extends State<AdminPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                          KonfirmasiPembayaranPage()));
+                                                      const  KonfirmasiPembayaranPage()));
                                             },
                                             child: Container(
                                               height: 30,
@@ -137,7 +138,7 @@ class _AdminPageState extends State<AdminPage> {
                                               ),
                                               child: const Center(
                                                 child: FittedBox(
-                                                  child: Text('Konfirmasi Pembelian', style: TextStyle(
+                                                  child: Text('Confirmation', style: TextStyle(
                                                       color: Colors.white,
                                                   ),),
                                                 ),
@@ -146,19 +147,28 @@ class _AdminPageState extends State<AdminPage> {
                                           ),
                                         ),
                                         Expanded(
-                                          child: Container(
-                                            height: 30,
-                                            margin: const EdgeInsets.only(right: 12),
-                                            padding:const  EdgeInsets.all(4),
-                                            decoration: BoxDecoration(
-                                                color: Colors.pinkAccent,
-                                                borderRadius: BorderRadius.circular(5)
-                                            ),
-                                            child: const Center(
-                                              child: FittedBox(
-                                                child: Text('Daftar Belanja', style: TextStyle(
-                                                    color: Colors.white,
-                                                ),),
+                                          child: InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const RiwayatTransaksiPage()));
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              margin: const EdgeInsets.only(right: 12),
+                                              padding:const  EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.pinkAccent,
+                                                  borderRadius: BorderRadius.circular(5)
+                                              ),
+                                              child: const Center(
+                                                child: FittedBox(
+                                                  child: Text('Transaction List', style: TextStyle(
+                                                      color: Colors.white,
+                                                  ),),
+                                                ),
                                               ),
                                             ),
                                           ),

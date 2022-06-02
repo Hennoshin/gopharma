@@ -21,7 +21,7 @@ class _KonfirmasiPembayaranPageState extends State<KonfirmasiPembayaranPage> {
         appBar: AppBar(
           backgroundColor: Colors.pinkAccent,
           title: const Text(
-            'Konfirmasi Pembelian',
+            'Confirmation Transaction',
           ),
           centerTitle: true,
         ),
@@ -87,8 +87,8 @@ class _KonfirmasiPembayaranPageState extends State<KonfirmasiPembayaranPage> {
                                   trailing: Container(
                                     color: Colors.pinkAccent.shade400,
                                     padding: EdgeInsets.all(10),
-                                    child: Text(
-                                      'Cek',
+                                    child: const Text(
+                                      'Check',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                   ),

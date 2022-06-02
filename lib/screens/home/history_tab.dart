@@ -45,75 +45,79 @@ class _HistoryTabState extends State<HistoryTab> {
             if (snapshot.data!.docs.isEmpty) {
               return const Center(child: Text("kosong"));
             }
-            return Column(
-              children: [
-                const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Daftar Belanja",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    )),
-                ListView.builder(
-                  itemCount: snapshot.data!.docs.isEmpty ? 0 : 1,
-                  shrinkWrap: true,
-                  itemBuilder: (ctx, int) {
-                    return FutureBuilder<
-                            List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
-                        future: historyC.getTransaksi(),
-                        builder: (ctx, trf) {
-                          if (!trf.hasData)
-                            return Center(child: Text("kosong"));
-                          return Column(
-                            children: trf.data!.map((e) {
-                              Map<String, dynamic> data = e.data();
-                              var date = data['waktu'].toDate();
-                              String format =
-                                  DateFormat('dd MMMM yyyy').format(date);
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Daftar Belanja",
+                        style:
+                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      )),
+                  ListView.builder(
+                    itemCount: snapshot.data!.docs.isEmpty ? 0 : 1,
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (ctx, int) {
+                      return FutureBuilder<
+                              List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+                          future: historyC.getTransaksi(),
+                          builder: (ctx, trf) {
+                            if (!trf.hasData)
+                              return Center(child: Text("kosong"));
+                            return Column(
+                              children: trf.data!.map((e) {
+                                Map<String, dynamic> data = e.data();
+                                var date = data['waktu'].toDate();
+                                String format =
+                                    DateFormat('dd MMMM yyyy').format(date);
 
-                              return Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ListTile(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DetailHistoryTabPage(
-                                                    transaksi: data,
-                                                    id: e.id,
-                                                  )));
-                                    },
-                                    title: Text(
-                                      format,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DetailHistoryTabPage(
+                                                      transaksi: data,
+                                                      id: e.id,
+                                                    )));
+                                      },
+                                      title: Text(
+                                        format,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      subtitle: Text(
+                                        data['konfirmasi'] == true
+                                            ? 'Sudah dikonfirmasi'
+                                            : 'Belum dikonfirmasi',
+                                        style: TextStyle(
+                                            color: data['konfirmasi'] == true
+                                                ? Colors.white
+                                                : Colors.red),
+                                      ),
+                                      trailing: Text(
+                                        DateFormat('H : mm').format(date),
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                    subtitle: Text(
-                                      data['konfirmasi'] == true
-                                          ? 'Sudah dikonfirmasi'
-                                          : 'Belum dikonfirmasi',
-                                      style: TextStyle(
-                                          color: data['konfirmasi'] == true
-                                              ? Colors.white
-                                              : Colors.red),
-                                    ),
-                                    trailing: Text(
-                                      DateFormat('H : mm').format(date),
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                  Divider()
-                                ],
-                              );
-                            }).toList(),
-                          );
-                        });
-                  },
-                )
-              ],
+                                    Divider()
+                                  ],
+                                );
+                              }).toList(),
+                            );
+                          });
+                    },
+                  ),
+                  const SizedBox(height: 50,)
+                ],
+              ),
             );
           },
         ));

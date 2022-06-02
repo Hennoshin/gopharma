@@ -24,6 +24,8 @@ class KonfirmasiPembelianController extends GetxController{
         },
         barrierDismissible: false,
         title: 'Berhasil',
+        buttonColor: Colors.pinkAccent,
+        confirmTextColor: Colors.white,
         middleText:
         "Pembayaran telah dikonfirmasi",
         textConfirm: "Lanjutkan",

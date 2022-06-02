@@ -32,15 +32,15 @@ class _DetailKonfirmasiPembelianPageState
           appBar: AppBar(
             backgroundColor: Colors.pink,
             title: const Text(
-              'Konfirmasi Pembayaran',
+              'Confirmation',
             ),
             centerTitle: true,
           ),
           body: Container(
             width: Get.width,
-            padding: EdgeInsets.all(20),
-            margin: EdgeInsets.only(top: 22),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.all(20),
+            margin: const EdgeInsets.only(top: 22),
+            decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
             child: Column(
@@ -48,7 +48,7 @@ class _DetailKonfirmasiPembelianPageState
                 Row(
                   children: [
                     const Text(
-                      "Nama : ",
+                      "Name : ",
                     ),
                     Text(
                       "${widget.transaksi['pembeli']['nama'] == '' ?widget.transaksi['pembeli']['email'] :widget.transaksi['pembeli']['nama']}",
@@ -60,7 +60,7 @@ class _DetailKonfirmasiPembelianPageState
                 Row(
                   children: [
                     const Text(
-                      "Waktu : ",
+                      "Time : ",
                     ),
                     Text(
                       DateFormat('dd MMMM yyyy HH : mm')
@@ -73,7 +73,7 @@ class _DetailKonfirmasiPembelianPageState
                 Row(
                   children: [
                     const Text(
-                      "Total Harga : ",
+                      "Total Price : ",
                     ),
                     Text(
                       'RM. ' + widget.transaksi['total_harga'].toString(),
@@ -84,7 +84,7 @@ class _DetailKonfirmasiPembelianPageState
                 const Divider(),
                 const Center(
                   child: Text(
-                    "Barang yang dipilih",
+                    "List of Items",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
                 ),
@@ -121,8 +121,8 @@ class _DetailKonfirmasiPembelianPageState
                     print(widget.id);
                     konfirmasiController.konfirmasiBarang(widget.id);
                   },
-                  child: Text(
-                    "Konfirmasi",
+                  child: const Text(
+                    "Confirm",
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: Colors.pink,

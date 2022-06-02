@@ -9,6 +9,7 @@ import 'package:gopharma/screens/admin/add_barang.dart';
 import 'package:gopharma/screens/admin/admin_page.dart';
 import 'package:gopharma/screens/admin/controller/barang_controller.dart';
 import 'package:gopharma/screens/admin/controller/konfirmasi_pembelian_controller.dart';
+import 'package:gopharma/screens/admin/controller/riwayat_transaksi_controller.dart';
 import 'package:gopharma/screens/admin/edit_barang.dart';
 import 'package:gopharma/screens/forgotpass.dart';
 import 'package:gopharma/screens/home/controller/carttab_controller.dart';
@@ -82,6 +83,7 @@ class AppDependecies {
     Get.lazyPut(() => CartController());
     Get.lazyPut(() => HistoryTabController());
     Get.lazyPut(() => KonfirmasiPembelianController());
+    Get.lazyPut(() => RiwayatTransaksiController());
   }
 }
 
