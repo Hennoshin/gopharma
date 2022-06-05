@@ -33,7 +33,7 @@ class _HistoryTabState extends State<HistoryTab> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
-              return const Center(child: Text("kosong"));
+              return const Center(child: Text("empty"));
             }
             if (snapshot.hasError) {
               return const Text('Something went wrong');
@@ -43,7 +43,7 @@ class _HistoryTabState extends State<HistoryTab> {
               return const Text("Loading");
             }
             if (snapshot.data!.docs.isEmpty) {
-              return const Center(child: Text("kosong"));
+              return const Center(child: Text("empty"));
             }
             return SingleChildScrollView(
               child: Column(
@@ -51,9 +51,9 @@ class _HistoryTabState extends State<HistoryTab> {
                   const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "Daftar Belanja",
+                        "Shopping List",
                         style:
-                            TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                       )),
                   ListView.builder(
                     itemCount: snapshot.data!.docs.isEmpty ? 0 : 1,
@@ -61,17 +61,17 @@ class _HistoryTabState extends State<HistoryTab> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (ctx, int) {
                       return FutureBuilder<
-                              List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
+                          List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
                           future: historyC.getTransaksi(),
                           builder: (ctx, trf) {
                             if (!trf.hasData)
-                              return Center(child: Text("kosong"));
+                              return Center(child: Text("empty"));
                             return Column(
                               children: trf.data!.map((e) {
                                 Map<String, dynamic> data = e.data();
                                 var date = data['waktu'].toDate();
                                 String format =
-                                    DateFormat('dd MMMM yyyy').format(date);
+                                DateFormat('dd MMMM yyyy').format(date);
 
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -94,8 +94,8 @@ class _HistoryTabState extends State<HistoryTab> {
                                       ),
                                       subtitle: Text(
                                         data['konfirmasi'] == true
-                                            ? 'Sudah dikonfirmasi'
-                                            : 'Belum dikonfirmasi',
+                                            ? 'Confirmed'
+                                            : 'Not Confirmed',
                                         style: TextStyle(
                                             color: data['konfirmasi'] == true
                                                 ? Colors.white

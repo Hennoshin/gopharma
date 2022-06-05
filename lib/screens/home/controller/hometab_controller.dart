@@ -55,7 +55,7 @@ class HomeTabController extends GetxController {
 
       if (data.isNotEmpty) {
         for (int i = 0; i < cart.listBarangs.length; i++) {
-          print("cek barang");
+          print("Check Items");
           // print(cart.listBarangs[i]);
           // print(barang);
           // print(cart.listBarangs.value[i] == barang);
@@ -65,7 +65,7 @@ class HomeTabController extends GetxController {
           // print(cart.listBarangs.value[i]['kode'] == barang['kode']);
 
           if (cart.listBarangs.value[i]['id'] == modelBarang.id) {
-            print("update barang");
+            print("update items");
 
             cart.listBarangs[i]['jumlah'] = cart.listBarangs[i]['jumlah'] + 1;
             cart.listBarangs[i]['total_harga'] =
@@ -86,7 +86,7 @@ class HomeTabController extends GetxController {
       }
     }
 
-    print("lihat list barang : " + cart.listBarangs.value.toString());
+    print("View item list : " + cart.listBarangs.value.toString());
     cart.listBarangs.refresh();
     cart.myBasket.refresh();
     cart.totalBarangs();
@@ -95,7 +95,7 @@ class HomeTabController extends GetxController {
     if (Get.isSnackbarOpen) {
       Get.closeAllSnackbars();
     }
-    Get.snackbar("Info", 'Berhasil masuk keranjang',
+    Get.snackbar("Info", 'Successfully added to cart',
         backgroundColor: Colors.white);
   }
 }

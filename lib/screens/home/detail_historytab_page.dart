@@ -26,7 +26,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.cyan.shade400,
         title: const Text(
-          'Detail Transaksi',
+          'Detail Transaction',
         ),
         centerTitle: true,
         actions: [
@@ -34,9 +34,9 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
               onPressed: () {
                 Get.defaultDialog(
                     middleText:
-                        "Apakah anda yakin menghapus riwayat belanjamu ?",
-                    textConfirm: "Yakin",
-                    textCancel: "Tidak",
+                    "Are you sure want to delete your shopping history ?",
+                    textConfirm: "Sure",
+                    textCancel: "No",
                     title: 'Konfirmasi',
                     buttonColor: Colors.pinkAccent,
                     confirmTextColor: Colors.white,
@@ -63,7 +63,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
             Row(
               children: [
                 const Text(
-                  "Pembeli : ",
+                  "Buyer : ",
                 ),
                 Text(
                   "${widget.transaksi['pembeli']['nama'] == '' ? widget.transaksi['pembeli']['email'] : widget.transaksi['pembeli']['nama']}",
@@ -75,7 +75,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
             Row(
               children: [
                 const Text(
-                  "Waktu : ",
+                  "Time : ",
                 ),
                 Text(
                   DateFormat('dd MMMM yyyy')
@@ -92,8 +92,8 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
                 ),
                 Text(
                   widget.transaksi['konfirmasi'] == true
-                      ? 'Sudah dikonfirmasi'
-                      : 'Belum dikonfirmasi',
+                      ? 'Confirmed'
+                      : 'Not Confirmed',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: widget.transaksi['konfirmasi'] == true
@@ -106,7 +106,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
             Row(
               children: [
                 const Text(
-                  "Total Harga : ",
+                  "Total Price : ",
                 ),
                 Text(
                   'RM. ' + widget.transaksi['total_harga'].toString(),
@@ -119,7 +119,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
             ),
             const Center(
               child: Text(
-                "Barang yang dibeli",
+                "Purchased Items",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),
@@ -135,7 +135,7 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
                 child: ListView.separated(
                   itemCount: widget.transaksi['barangs'].length,
                   separatorBuilder: (ctx, index) =>
-                      const Divider(color: Colors.white),
+                  const Divider(color: Colors.white),
                   itemBuilder: (ctx, index) => ListTile(
                     title: Text(
                       widget.transaksi['barangs'][index]['nama'],

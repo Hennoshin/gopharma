@@ -39,7 +39,7 @@ class _KonfirmasiPembayaranPageState extends State<KonfirmasiPembayaranPage> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if(!snapshot.hasData) {
-                return Center(child: Text("kosong"));
+                return Center(child: Text("Empty"));
               }
               if (snapshot.hasError) {
                 return Text('Something went wrong');
@@ -57,8 +57,8 @@ class _KonfirmasiPembayaranPageState extends State<KonfirmasiPembayaranPage> {
                       List<QueryDocumentSnapshot<Map<String, dynamic>>>>(
                       future: konfirmasiPembayaran.getTransaksi(),
                       builder: (ctx, trf) {
-                        if (!trf.hasData) return Center(child: Text("kosong"));
-                        if (trf.data!.isEmpty) return Center(child: Text("kosong"));
+                        if (!trf.hasData) return Center(child: Text("Empty"));
+                        if (trf.data!.isEmpty) return Center(child: Text("Emppty"));
                         return Column(
                           children: trf.data!.map((e) {
                             Map<String, dynamic> data = e.data();

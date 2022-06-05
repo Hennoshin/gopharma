@@ -23,12 +23,12 @@ class KonfirmasiPembelianController extends GetxController{
           return false;
         },
         barrierDismissible: false,
-        title: 'Berhasil',
+        title: 'Success',
         buttonColor: Colors.pinkAccent,
         confirmTextColor: Colors.white,
         middleText:
-        "Pembayaran telah dikonfirmasi",
-        textConfirm: "Lanjutkan",
+        "Payment has been confirmed",
+        textConfirm: "Continue",
         onConfirm: () {
           Get.back();
           Get.back();
@@ -37,14 +37,14 @@ class KonfirmasiPembelianController extends GetxController{
     }).catchError((error){
       isLoading.value = false;
       Get.defaultDialog(
-        barrierDismissible: false,
-        backgroundColor: Colors.red,
-        title: 'Gagal',
-        middleText:
-        "Pembayaran gagal dikonfirmasi, error $error",
-        textConfirm: "Mengerti",
-        buttonColor: Colors.pinkAccent.shade400,
-        confirmTextColor: Colors.white
+          barrierDismissible: false,
+          backgroundColor: Colors.red,
+          title: 'Gagal',
+          middleText:
+          "Payment failed to confirmed, error $error",
+          textConfirm: "Understand",
+          buttonColor: Colors.pinkAccent.shade400,
+          confirmTextColor: Colors.white
       );
     });
     isLoading.value = false;

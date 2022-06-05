@@ -19,7 +19,7 @@ class CartController extends GetxController {
   }
 
   void totalHargas(){
-    print('hitung harga');
+    print('calculated price');
     totalHarga.value=0;
     for (var element in listBarangs) {
       totalHarga += element['total_harga'];
@@ -33,16 +33,16 @@ class CartController extends GetxController {
 
     try{
       await transaksi.add(data).then((value){
-        Get.snackbar("Info", 'Konfirmasi pembelian dikirim silahkan melakukan pembayaran cash',
+        Get.snackbar("Info", 'Purchase confirmation sent please make a cash payment',
             backgroundColor: Colors.white);
         listBarangs.clear();
       }).catchError((error){
-        Get.snackbar("Error", 'Konfirmasi pembelian gagal dikirim, error $error"',
+        Get.snackbar("Error", 'Purchased confirmation failed to send, error $error"',
             colorText: Colors.white,
             backgroundColor: Colors.red);
       });
     }catch(e){
-      Get.snackbar("Error", 'Konfirmasi pembelian gagal dikirim, error $e"',
+      Get.snackbar("Error", 'Purchase confirmation failed to send, error $e"',
           colorText: Colors.white,
           backgroundColor: Colors.red);
     }

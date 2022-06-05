@@ -26,7 +26,7 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.pink.shade400,
         title: const Text(
-          'Detail Transaksi',
+          'Detail Transaction',
         ),
         centerTitle: true,
         actions: [
@@ -34,9 +34,9 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
               onPressed: () {
                 Get.defaultDialog(
                     middleText:
-                    "Apakah anda yakin menghapus riwayat transaksi ?",
-                    textConfirm: "Yakin",
-                    textCancel: "Tidak",
+                    "Are you sure want to delete history transaction ?",
+                    textConfirm: "Sure",
+                    textCancel: "No",
                     title: 'Konfirmasi',
                     buttonColor: Colors.pinkAccent,
                     confirmTextColor: Colors.white,
@@ -63,7 +63,7 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
             Row(
               children: [
                 const Text(
-                  "Pembeli : ",
+                  "Buyer : ",
                 ),
                 Text(
                   "${widget.transaksi['pembeli']['nama'] == '' ? widget.transaksi['pembeli']['email'] : widget.transaksi['pembeli']['nama']}",
@@ -75,7 +75,7 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
             Row(
               children: [
                 const Text(
-                  "Waktu : ",
+                  "Time : ",
                 ),
                 Text(
                   DateFormat('dd MMMM yyyy')
@@ -92,8 +92,8 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
                 ),
                 Text(
                   widget.transaksi['konfirmasi'] == true
-                      ? 'Sudah dikonfirmasi'
-                      : 'Belum dikonfirmasi',
+                      ? 'Confirmed'
+                      : 'Not Confirmed',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: widget.transaksi['konfirmasi'] == true
@@ -106,7 +106,7 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
             Row(
               children: [
                 const Text(
-                  "Total Harga : ",
+                  "Total Price : ",
                 ),
                 Text(
                   'RM. ' + widget.transaksi['total_harga'].toString(),
@@ -119,7 +119,7 @@ class _DetailRiwayatTransaksiPageState extends State<DetailRiwayatTransaksiPage>
             ),
             const Center(
               child: Text(
-                "Barang yang dibeli",
+                "Purchased Item",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
             ),

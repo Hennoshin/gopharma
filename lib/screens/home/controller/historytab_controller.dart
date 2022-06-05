@@ -5,11 +5,11 @@ import 'package:gopharma/controller/user_controller.dart';
 
 class HistoryTabController extends GetxController {
   final Stream<QuerySnapshot> transaksi =
-      FirebaseFirestore.instance.collection('transaksi').snapshots();
+  FirebaseFirestore.instance.collection('transaksi').snapshots();
   final UserController user = Get.find<UserController>();
 
   Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getTransaksi() async {
+  getTransaksi() async {
     var data = await FirebaseFirestore.instance
         .collection("transaksi")
         .orderBy('waktu', descending: true)
@@ -25,11 +25,11 @@ class HistoryTabController extends GetxController {
           .doc(id)
           .delete()
           .then((value) => Get.snackbar(
-              'Info', 'Berhasil menghapus riwayat belanja',
-              backgroundColor: Colors.white))
+          'Info', 'Successfully deleted shopping history',
+          backgroundColor: Colors.white))
           .catchError((error) => Get.snackbar(
-              'Gagal', 'Gagal menghapus riwayat belanja',
-              backgroundColor:  Colors.red, colorText: Colors.white));
+          'Failed', 'Failed deleted shopping history',
+          backgroundColor:  Colors.red, colorText: Colors.white));
     } catch (error) {
       Get.snackbar('Error', 'Gagal $error', backgroundColor: Colors.red, colorText: Colors.white);
     }
