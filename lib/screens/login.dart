@@ -17,12 +17,26 @@ class _LoginDemoState extends State<LoginDemo> {
     await context.read<LoginViewModel>().login();
 
     String? error = context.read<LoginViewModel>().errorMessage;
-    if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(TextSnackBar(text: error));
-      return;
+
+    print("error");
+    print(error.toString());
+
+    if(error == 'isAdmin'){
+      Navigator.pushReplacementNamed(context, routeHomeAdmin);
+    }
+    else if(error == 'isUser'){
+      Navigator.pushReplacementNamed(context, routeHome);
+    }
+    else{
+      if (error != null) {
+
+        ScaffoldMessenger.of(context).showSnackBar(TextSnackBar(text: error));
+        return;
+      }
     }
 
-    Navigator.pushReplacementNamed(context, routeHome);
+
+
   }
 
   @override
