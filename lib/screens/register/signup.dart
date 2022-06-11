@@ -73,9 +73,12 @@ class _SignUpState extends State<SignUp> {
                     filled: true,
                     fillColor: Colors.white,
                     label: const Center(
-                      child: Text('Username'),
+                      child: Text('Address'),
                     ),
-                    hintText: 'Input Username'),
+                    hintText: 'Input Address'),
+                    onChanged: (value) {
+                      context.read<RegisterViewModel>().setAddress(value);
+                    },
               ),
             ),
             Padding(

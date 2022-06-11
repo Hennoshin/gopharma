@@ -39,6 +39,12 @@ class RegisterViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setAddress(String address) {
+    form.address = address;
+
+    notifyListeners();
+  }
+
   Future<String?> registerUser() async {
 
     // TODO: Move this operation to repository, not supposed to be ViewModel responsibility
@@ -52,6 +58,7 @@ class RegisterViewModel extends ChangeNotifier {
           "name" : form.firstName,
           "email" : form.email,
           "lastName" : form.lastName,
+          "address" : form.address,
           "role" : "user",
           "image" : "no_image.jpg"
         });

@@ -15,6 +15,64 @@ class CartTab extends StatefulWidget {
 class _CartTabState extends State<CartTab> {
   CartController cart = Get.find<CartController>();
   UserController userController = Get.find<UserController>();
+
+  final TextEditingController _textController = TextEditingController();
+
+  void _confirm(BuildContext context) async {
+    await userController.asyncUser();
+    _textController.text = userController.address.value;
+
+    String confirmation = await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: const Text("Confirm Order"),
+          content: TextFormField(
+            controller: _textController,
+            decoration: const InputDecoration(
+              hintText: "Address"
+            ),
+          ),
+          actions: [
+            OutlinedButton(
+                onPressed: () => Navigator.pop(context, ""),
+                child: const Text("Cancel")
+            ),
+            ElevatedButton(
+                onPressed: () => Navigator.pop(context, _textController.value.text),
+                child: const Text("Confirm")
+            )
+          ],
+        )
+    ) ?? "";
+
+    if (confirmation == "") {
+      return;
+    }
+
+    Map<String, dynamic> transaksi = {
+      "barangs": cart.listBarangs.value,
+      "konfirmasi": false,
+      "pembeli": {
+        "email": userController.email.value,
+        "nama": userController.name.value,
+        "image": userController.image.value,
+        "address": confirmation
+      },
+      "total_harga": cart.totalHarga.value,
+      "total_barang": cart.totalBarang.value,
+      "waktu": DateTime.now()
+    };
+    print(transaksi);
+    Get.back();
+    cart.addTransaction(transaksi);
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -38,33 +96,7 @@ class _CartTabState extends State<CartTab> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.defaultDialog(
-                        middleText:
-                        "Are you sure about your order ?",
-                        textConfirm: "Sure",
-                        textCancel: "No",
-                        title: 'Confirm',
-                        buttonColor: Colors.pinkAccent,
-                        confirmTextColor: Colors.white,
-                        cancelTextColor: Colors.black,
-                        onConfirm: () {
-                          Map<String, dynamic> transaksi = {
-                            "barangs": cart.listBarangs.value,
-                            "konfirmasi": false,
-                            "pembeli": {
-                              "email": userController.email.value,
-                              "nama": userController.name.value,
-                              "image": userController.image.value,
-                            },
-                            "total_harga": cart.totalHarga.value,
-                            "total_barang": cart.totalBarang.value,
-                            "waktu": DateTime.now()
-                          };
-                          print(transaksi);
-                          Get.back();
-                          cart.addTransaction(transaksi);
-
-                        });
+                    _confirm(context);
                   },
                   child: Container(
                       padding: EdgeInsets.all(10),

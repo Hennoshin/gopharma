@@ -58,6 +58,16 @@ class _DetailKonfirmasiPembelianPageState
                 ),
                 const Divider(),
                 Row(
+                    children: [
+                      const Text("Address : "),
+                      Text(
+                        widget.transaksi["pembeli"]["address"] ?? "",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      )
+                    ]
+                ),
+                const Divider(),
+                Row(
                   children: [
                     const Text(
                       "Time : ",
