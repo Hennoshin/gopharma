@@ -7,10 +7,12 @@ import 'package:gopharma/model/model_barang.dart';
 import 'package:gopharma/routes_name.dart';
 import 'package:gopharma/screens/admin/add_barang.dart';
 import 'package:gopharma/screens/admin/edit_barang.dart';
+import 'package:gopharma/screens/admin/riwayat_transaksi_page.dart';
 import 'package:gopharma/screens/admin/widgets/profile_card.dart';
 import 'package:gopharma/utils/app_color.dart';
 
 import 'controller/barang_controller.dart';
+import 'konfirmasi_pembelian_page.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({Key? key}) : super(key: key);
@@ -41,7 +43,7 @@ class _AdminPageState extends State<AdminPage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.pink,
         onPressed: () {
-          Navigator.pushNamed(context, addBarang);
+          Navigator.pushNamed(context, routeAddBarang);
         },
         child: Icon(Icons.add),
       ),
@@ -96,6 +98,83 @@ class _AdminPageState extends State<AdminPage> {
                               return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    const SizedBox(height: 16,),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            height: 30,
+                                            margin: const EdgeInsets.only(left: 12),
+                                            padding:const  EdgeInsets.all(4),
+                                            decoration: BoxDecoration(
+                                                color: Colors.pink,
+                                                borderRadius: BorderRadius.circular(5)
+                                            ),
+                                            child: const Center(
+                                              child: FittedBox(
+                                                child: Text('Items List', style: TextStyle(
+                                                    color: Colors.white,
+                                                ),),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                      const  KonfirmasiPembayaranPage()));
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                                              padding:const  EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.pinkAccent,
+                                                  borderRadius: BorderRadius.circular(5)
+                                              ),
+                                              child: const Center(
+                                                child: FittedBox(
+                                                  child: Text('Confirmation', style: TextStyle(
+                                                      color: Colors.white,
+                                                  ),),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: (){
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const RiwayatTransaksiPage()));
+                                            },
+                                            child: Container(
+                                              height: 30,
+                                              margin: const EdgeInsets.only(right: 12),
+                                              padding:const  EdgeInsets.all(4),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.pinkAccent,
+                                                  borderRadius: BorderRadius.circular(5)
+                                              ),
+                                              child: const Center(
+                                                child: FittedBox(
+                                                  child: Text('Transaction List', style: TextStyle(
+                                                      color: Colors.white,
+                                                  ),),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(

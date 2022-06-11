@@ -8,10 +8,14 @@ import 'package:gopharma/firebase_options.dart';
 import 'package:gopharma/screens/admin/add_barang.dart';
 import 'package:gopharma/screens/admin/admin_page.dart';
 import 'package:gopharma/screens/admin/controller/barang_controller.dart';
+import 'package:gopharma/screens/admin/controller/konfirmasi_pembelian_controller.dart';
+import 'package:gopharma/screens/admin/controller/riwayat_transaksi_controller.dart';
 import 'package:gopharma/screens/admin/edit_barang.dart';
 import 'package:gopharma/screens/forgotpass.dart';
 import 'package:gopharma/screens/home/controller/carttab_controller.dart';
+import 'package:gopharma/screens/home/controller/historytab_controller.dart';
 import 'package:gopharma/screens/home/controller/hometab_controller.dart';
+import 'package:gopharma/screens/home/detail_historytab_page.dart';
 import 'package:gopharma/screens/login.dart';
 import 'package:gopharma/screens/register/otp.dart';
 import 'package:gopharma/viewmodel/login_viewmodel.dart';
@@ -38,7 +42,7 @@ Route<dynamic>? createRoute(settings) {
       return MaterialPageRoute(builder: (context) => const HomePage());
     case routeHomeAdmin:
       return MaterialPageRoute(builder: (context) => const AdminPage());
-    case addBarang:
+    case routeAddBarang:
       return MaterialPageRoute(builder: (context) => const AddBarang());
     case routeLogin:
       return MaterialPageRoute(builder: (context) => ChangeNotifierProvider(create: (_) => LoginViewModel(), child: const LoginDemo()));
@@ -77,6 +81,9 @@ class AppDependecies {
     Get.lazyPut(() => BarangController());
     Get.lazyPut(() => HomeTabController());
     Get.lazyPut(() => CartController());
+    Get.lazyPut(() => HistoryTabController());
+    Get.lazyPut(() => KonfirmasiPembelianController());
+    Get.lazyPut(() => RiwayatTransaksiController());
   }
 }
 

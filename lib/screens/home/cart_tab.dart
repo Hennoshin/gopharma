@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:gopharma/utils/app_color.dart';
 
+import '../../controller/user_controller.dart';
 import 'controller/carttab_controller.dart';
 
 class CartTab extends StatefulWidget {
@@ -12,6 +14,7 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   CartController cart = Get.find<CartController>();
+  UserController userController = Get.find<UserController>();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,15 +38,40 @@ class _CartTabState extends State<CartTab> {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.snackbar("Info", 'Under Maintenance',
-                        backgroundColor: Colors.white);
+                    Get.defaultDialog(
+                        middleText:
+                        "Are you sure about your order ?",
+                        textConfirm: "Sure",
+                        textCancel: "No",
+                        title: 'Confirm',
+                        buttonColor: Colors.pinkAccent,
+                        confirmTextColor: Colors.white,
+                        cancelTextColor: Colors.black,
+                        onConfirm: () {
+                          Map<String, dynamic> transaksi = {
+                            "barangs": cart.listBarangs.value,
+                            "konfirmasi": false,
+                            "pembeli": {
+                              "email": userController.email.value,
+                              "nama": userController.name.value,
+                              "image": userController.image.value,
+                            },
+                            "total_harga": cart.totalHarga.value,
+                            "total_barang": cart.totalBarang.value,
+                            "waktu": DateTime.now()
+                          };
+                          print(transaksi);
+                          Get.back();
+                          cart.addTransaction(transaksi);
+
+                        });
                   },
                   child: Container(
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: Colors.pink,
                           borderRadius: BorderRadius.circular(5)),
-                      child: Text(
+                      child: const Text(
                         'Checkout',
                         style: TextStyle(
                             color: Colors.white,
