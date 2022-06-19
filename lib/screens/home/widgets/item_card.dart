@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gopharma/model/model_barang.dart';
 import 'package:gopharma/screens/home/controller/hometab_controller.dart';
+import 'package:gopharma/screens/home/detail_barang_page.dart';
 
 class ItemCard extends StatefulWidget {
   final ModelBarang barang;
@@ -24,23 +25,36 @@ class _ItemCardState extends State<ItemCard> {
       width: Get.width / 2 - 40,
       child: Column(
         children: [
-          widget.barang.imageUrl.isEmpty
-              ? Container(
-                  width: Get.width / 2 - 40,
-                  height: 100,
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: const Icon(Icons.image))
-              : Container(
-                  width: 100,
-                  height: 100,
-                  decoration:
-                      BoxDecoration(border: Border.all(color: Colors.black)),
-                  child: Image.network(
-                    widget.barang.imageUrl,
-                    fit: BoxFit.fill,
-                  ),
-                ),
+
+          InkWell(
+            onTap: (){
+              print("Go to detail barang");
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                      DetailBarangPage(modelBarang: widget.barang,)));
+            },
+            child: widget.barang.imageUrl.isEmpty
+                ? Container(
+                width: Get.width / 2 - 40,
+                height: 100,
+                decoration:
+                BoxDecoration(border: Border.all(color: Colors.black)),
+                child: const Icon(Icons.image))
+                : Container(
+              width: 100,
+              height: 100,
+              decoration:
+              BoxDecoration(border: Border.all(color: Colors.black)),
+              child: Image.network(
+                widget.barang.imageUrl,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+
+
           const SizedBox(
             height: 4,
           ),
