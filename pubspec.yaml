@@ -49,6 +49,7 @@ dependencies:
   path_provider: ^2.0.11
   pdf: ^3.8.1
   open_file: ^3.2.1
+  syncfusion_flutter_xlsio: ^20.1.60-beta
 
 dev_dependencies:
   flutter_test:

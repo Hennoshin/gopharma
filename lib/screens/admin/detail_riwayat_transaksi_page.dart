@@ -63,7 +63,7 @@ class _DetailRiwayatTransaksiPageState
     Uint8List bytes = await pdf.save();
 
     final dir = await getApplicationDocumentsDirectory();
-    final file = File('${dir.path}/transaction-$waktu');
+    final file = File('${dir.path}/transaction-$waktu-${DateFormat('hhmm').format(DateTime.now())}.pdf');
 
     await file.writeAsBytes(bytes);
 

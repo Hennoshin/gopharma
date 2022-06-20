@@ -1,7 +1,14 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gopharma/screens/home/controller/historytab_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:pdf/pdf.dart';
+import 'package:open_file/open_file.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 import '../../utils/app_color.dart';
 
@@ -18,6 +25,49 @@ class DetailHistoryTabPage extends StatefulWidget {
 
 class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
   HistoryTabController historyC = Get.find<HistoryTabController>();
+
+  void generatePDF(
+      {required String pembeli,
+        required String waktu,
+        required String total,
+        required List barangs}) async {
+    final pdf = pw.Document();
+
+    pdf.addPage(pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Text("Buyer : $pembeli"),
+            pw.Text("Time : $waktu"),
+            pw.Text("Total Price : RM. $total"),
+            pw.SizedBox(height: 50),
+            pw.Center(child: pw.Text("Purchased Item")),
+            pw.Divider(),
+            pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: barangs
+                    .map((e) => pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(e['nama']),
+                      pw.Text("RM. ${e['harga']}"),
+                      pw.Text("Jumlah ${e['jumlah']} X"),
+                      pw.Divider(),
+                    ]))
+                    .toList())
+          ];
+        }));
+
+    Uint8List bytes = await pdf.save();
+
+    final dir = await getApplicationDocumentsDirectory();
+    final file = File('${dir.path}/transaction-$waktu-${DateFormat('hhmm').format(DateTime.now())}.pdf');
+
+    await file.writeAsBytes(bytes);
+
+    await OpenFile.open(file.path);
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -163,7 +213,42 @@ class _DetailHistoryTabPageState extends State<DetailHistoryTabPage> {
               ),
             ),
             const SizedBox(
-              height: 50,
+              height: 16,
+            ),
+            InkWell(
+              onTap: (){
+                generatePDF(
+                    pembeli: widget.transaksi['pembeli']['nama'] == '' ? widget.transaksi['pembeli']['email'] : widget.transaksi['pembeli']['nama'],
+                    waktu: DateFormat('dd MMMM yyyy')
+                        .format(widget.transaksi['waktu'].toDate()),
+                    total: widget.transaksi['total_harga'].toString(),
+                    barangs: widget.transaksi['barangs']);
+              },
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.white)
+                ),
+                height: 40,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.picture_as_pdf,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Generate PDF",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
             )
           ],
         ),
