@@ -44,6 +44,7 @@ dependencies:
   firebase_storage: ^10.2.15
   equatable: ^2.0.3
   intl: ^0.17.0
+  firebase_messaging: ^11.4.2
 
 dev_dependencies:
   flutter_test:
