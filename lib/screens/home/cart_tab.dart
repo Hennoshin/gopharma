@@ -65,6 +65,8 @@ class _CartTabState extends State<CartTab> {
     print(transaksi);
     Get.back();
     cart.addTransaction(transaksi);
+
+    cart.sendNotification(userController.email.value);
   }
 
   @override
