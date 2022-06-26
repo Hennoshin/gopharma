@@ -21,10 +21,10 @@ class UserController extends GetxController {
         if(result != null){
           print(result);
           email.value = user.email!;
-          name.value = result['name'];
-          role.value = result['role'];
-          address.value = result['address'];
-          image.value = result['image'];
+          name.value = result['name']??'';
+          role.value = result['role']??'';
+          address.value = result['address']??'';
+          image.value = result['image']??'';
 
         }
 
