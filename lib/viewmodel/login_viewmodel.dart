@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -73,9 +74,14 @@ class LoginViewModel extends ChangeNotifier {
               userController.email.value = hasil['email'] ?? '';
               userController.role.value = hasil['role'] ?? '';
               userController.image.value = hasil['image'] ?? '';
+              userController.address.value = hasil['address'] ?? '';
               _errorMessage = 'isUser';
             }
           }
+          final token = await FirebaseMessaging.instance.getToken();
+          hasil["token"] = token;
+
+          user.doc(_email).set(hasil);
         }else{
           print("blm ada di doc");
         }

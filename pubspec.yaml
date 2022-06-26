@@ -50,6 +50,7 @@ dependencies:
   pdf: ^3.8.1
   open_file: ^3.2.1
   syncfusion_flutter_xlsio: ^20.1.60-beta
+  firebase_messaging: ^11.4.2
 
 dev_dependencies:
   flutter_test:
